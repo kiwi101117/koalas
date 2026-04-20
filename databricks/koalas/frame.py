@@ -77,10 +77,11 @@ from pyspark.sql.types import (
 )
 from pyspark.sql.window import Window
 
+import databricks.koalas as ks
 from databricks import koalas as ks  # For running doctests and reference resolution in PyCharm.
 from databricks.koalas.accessors import KoalasFrameMethods
 from databricks.koalas.config import option_context, get_option
-from databricks.koalas.spark import functions as SF
+#from databricks.koalas.spark import functions as SF
 from databricks.koalas.spark.accessors import SparkFrameMethods, CachedSparkFrameMethods
 from databricks.koalas.utils import (
     align_diff_frames,
@@ -11721,6 +11722,12 @@ defaultdict(<class 'list'>, {'col..., 'col...})]
 
     def __setitem__(self, key, value):
         from databricks.koalas.series import Series
+        
+        # if is_list_like(value) and not isinstance(value, (DataFrame, Series, spark.Column)):
+        #     if isinstance(key, list) and not isinstance(value, pd.DataFrame):
+        #         value = DataFrame(pd.DataFrame(value, columns=key))
+        #     else:
+        #         value = Series(value)
 
         if isinstance(value, (DataFrame, Series)) and not same_anchor(value, self):
             # Different Series or DataFrames
